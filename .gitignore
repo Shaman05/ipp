@@ -1,0 +1,12 @@
+.idea/
+.sass-cache/
+.build/
+.dist/
+node_modules/
+yarn.lock
+yarn-error.log
+npm-debug.log
+package-lock.json
+release/
+logs/
+downloads/

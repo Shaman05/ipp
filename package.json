@@ -1,0 +1,20 @@
+{
+  "name": "ipp",
+  "version": "1.0.0",
+  "description": "Incremental package publisher.",
+  "main": "app/main/main.js",
+  "scripts": {
+    "dev": "E:/electron-v1.8.2-win32-x64/electron.exe .",
+    "prd": "E:/electron-v1.8.2-win32-x64/electron.exe ./dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shaman05/ipp.git"
+  },
+  "author": "shaman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shaman05/ipp/issues"
+  },
+  "homepage": "https://github.com/Shaman05/ipp#readme"
+}
