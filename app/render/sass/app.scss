@@ -1,0 +1,75 @@
+::-webkit-scrollbar {width: 10px; height: 3px; transition: all 0.5s;}
+::-webkit-scrollbar-track-piece{background-color: transparent;}
+::-webkit-scrollbar-thumb{background: rgba(44, 62, 80, 0.2); min-height: 150px; min-width: 150px;}
+::-webkit-scrollbar-thumb:vertical:hover{background: rgba(44, 62, 80, 0.8);}
+::-webkit-scrollbar-thumb:horizontal:hover{background: rgba(44, 62, 80, 0.8);}
+
+body{
+
+}
+.app-wall{
+  width: 320px;
+  margin: 0 auto;
+  padding-top: 180px;
+  background: url("../images/ZIP_128x128.png") no-repeat center;
+  p{
+    font-size: 14px;
+    text-align: center;
+  }
+}
+.home{
+  .content{
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 50px;
+    .ivu-btn{
+      border-width: 1.5px;
+      margin-bottom: 12px;
+    }
+    h3{
+      padding: 10px 0;
+    }
+    .prj-list{
+      list-style: none;
+      li{
+        padding: 4px 12px 2px;
+        border: 1px solid #ffffff;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        &:hover{
+          box-shadow: 0 0 30px #d3d3d3 inset;
+        }
+        .del-icon{
+          position: absolute;
+          top: 8px;
+          right: 12px;
+          color: gray;
+          &:hover{
+            color: #ff4c3d;
+          }
+        }
+      }
+      .name{
+        font-weight: bold;
+        line-height: normal;
+      }
+      .dir{
+        font-size: 12px;
+      }
+    }
+  }
+}
+.project{
+  position: relative;
+  .back-icon{
+    position: absolute;
+    z-index: 2;
+    top: 4px;
+    left: 10px;
+    cursor: pointer;
+  }
+  .ivu-table-wrapper{
+    border: none;
+  }
+}

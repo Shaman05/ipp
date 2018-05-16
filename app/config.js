@@ -8,19 +8,21 @@ let processCwd = process.cwd();
 let resourcesDir = path.join(__dirname, 'resources');
 
 module.exports = {
-  pkg,
-  frame: {
-    width: 800,
-	height: 600
-  },
-  icons: {
-    png48: resourcesFile('ZIP_48x48.png'),
-    png128: resourcesFile('ZIP_128x128.png'),
-	ico48: resourcesFile('ZIP_48x48.ico'),
-	ico128: resourcesFile('ZIP_128x128.ico'),
-  }
+	pkg,
+	frame: {
+		width: 800,
+		height: 600
+	},
+	entry: path.join(__dirname, 'index.html'),
+	icons: {
+		png48: resourcesFile('ZIP_48x48.png'),
+		png128: resourcesFile('ZIP_128x128.png'),
+		ico48: resourcesFile('ZIP_48x48.ico'),
+		ico128: resourcesFile('ZIP_128x128.ico'),
+	},
+	debug: false
 };
 
 function resourcesFile(name) {
-  return path.join(resourcesDir, name);
+	return path.join(resourcesDir, name);
 }

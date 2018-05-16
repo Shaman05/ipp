@@ -4,8 +4,8 @@
   "description": "Incremental package publisher.",
   "main": "app/main/main.js",
   "scripts": {
-    "dev": "E:/electron-v1.8.2-win32-x64/electron.exe .",
-    "prd": "cd dist && E:/electron-v1.8.2-win32-x64/electron.exe ."
+    "dev": "E:/electron-v2.0.0-win32-ia32/electron.exe .",
+    "prd": "cd dist && E:/electron-v2.0.0-win32-ia32/electron.exe ."
   },
   "repository": {
     "type": "git",

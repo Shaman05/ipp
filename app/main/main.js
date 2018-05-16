@@ -3,43 +3,42 @@ const path = require('path');
 const url = require('url');
 let menu = require('./menu');
 let config = require('../config');
-let a = require('./a');
-let indexPagePath = path.resolve(__dirname, '../index.html');
 
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let win;
 
-function createWindow () {
-
-  console.log(`a.foo: ${a.foo}`);
-  console.log(`index page: ${indexPagePath}`);
-
-  // 创建浏览器窗口。
-  let {width, height} = config.frame;
-  win = new BrowserWindow({
-	width, height,
-	icon: config.icons.png48
-  });
-  menu.init(win);
-
-  // 然后加载应用的 index.html。
-  win.loadURL(url.format({
-	pathname: indexPagePath,
-	protocol: 'file:',
-	slashes: true
-  }));
-
-  // 打开开发者工具。
-  win.webContents.openDevTools();
-
-  // 当 window 被关闭，这个事件会被触发。
-  win.on('closed', () => {
-	// 取消引用 window 对象，如果你的应用支持多窗口的话，
-	// 通常会把多个 window 对象存放在一个数组里面，
-	// 与此同时，你应该删除相应的元素。
-	win = null
-  })
+function createWindow() {
+	let {entry, frame, debug} = config;
+	debug = process.argv[2] === 'debug' || debug;
+	console.log(`index page: ${entry}`);
+	
+	// 创建浏览器窗口。
+	let {width, height} = frame;
+	win = new BrowserWindow({
+		width, height,
+		icon: config.icons.png48,
+		resizable: false
+	});
+	menu.init(win, debug);
+	
+	// 然后加载应用的 index.html。
+	win.loadURL(url.format({
+		pathname: entry,
+		protocol: 'file:',
+		slashes: true
+	}));
+	
+	// 打开开发者工具。
+	debug && win.webContents.openDevTools();
+	
+	// 当 window 被关闭，这个事件会被触发。
+	win.on('closed', () => {
+		// 取消引用 window 对象，如果你的应用支持多窗口的话，
+		// 通常会把多个 window 对象存放在一个数组里面，
+		// 与此同时，你应该删除相应的元素。
+		win = null
+	})
 }
 
 // Electron 会在初始化后并准备
@@ -49,17 +48,17 @@ app.on('ready', createWindow);
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
-  // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
-  // 否则绝大部分应用及其菜单栏会保持激活。
-  if (process.platform !== 'darwin') {
-  app.quit()
-}
+	// 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
+	// 否则绝大部分应用及其菜单栏会保持激活。
+	if (process.platform !== 'darwin') {
+		app.quit()
+	}
 });
 
 app.on('activate', () => {
-  // 在macOS上，当单击dock图标并且没有其他窗口打开时，
-  // 通常在应用程序中重新创建一个窗口。
-  if (win === null) {
-  createWindow()
-}
+	// 在macOS上，当单击dock图标并且没有其他窗口打开时，
+	// 通常在应用程序中重新创建一个窗口。
+	if (win === null) {
+		createWindow()
+	}
 });
