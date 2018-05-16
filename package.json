@@ -5,16 +5,22 @@
   "main": "app/main/main.js",
   "scripts": {
     "dev": "E:/electron-v1.8.2-win32-x64/electron.exe .",
-    "prd": "E:/electron-v1.8.2-win32-x64/electron.exe ./dist/"
+    "prd": "cd dist && E:/electron-v1.8.2-win32-x64/electron.exe ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shaman05/ipp.git"
   },
-  "author": "shaman",
+  "author": "shaman<https://github.com/Shaman05>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Shaman05/ipp/issues"
   },
-  "homepage": "https://github.com/Shaman05/ipp#readme"
+  "homepage": "https://github.com/Shaman05/ipp#readme",
+  "dependencies": {
+    "iview": "^2.14.0-rc.1",
+    "simple-git": "^1.92.0",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1"
+  }
 }

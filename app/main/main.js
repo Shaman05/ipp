@@ -1,6 +1,8 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
+let menu = require('./menu');
+let config = require('../config');
 let a = require('./a');
 let indexPagePath = path.resolve(__dirname, '../index.html');
 
@@ -9,11 +11,17 @@ let indexPagePath = path.resolve(__dirname, '../index.html');
 let win;
 
 function createWindow () {
+
   console.log(`a.foo: ${a.foo}`);
   console.log(`index page: ${indexPagePath}`);
 
   // 创建浏览器窗口。
-  win = new BrowserWindow({width: 800, height: 600});
+  let {width, height} = config.frame;
+  win = new BrowserWindow({
+	width, height,
+	icon: config.icons.png48
+  });
+  menu.init(win);
 
   // 然后加载应用的 index.html。
   win.loadURL(url.format({
