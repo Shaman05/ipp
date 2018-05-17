@@ -13,7 +13,7 @@
             </a>
             <div class="prj-list-warp">
                 <ul class="prj-list">
-                    <li v-for="item in historyList" @click="openRepo(item)">
+                    <li v-for="item in historyList" @click="viewRepo(item)">
                         <div class="name">{{item.name}}</div>
                         <div class="dir">{{item.dir}}</div>
                         <span class="del-icon" @click.stop="removeRepo(item)"><Icon type="android-delete" size="24"></Icon></span>

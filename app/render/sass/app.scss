@@ -122,3 +122,32 @@ body{
     }
   }
 }
+.view{
+  .ivu-layout{
+    background: none;
+  }
+  .ivu-icon-fork-repo{
+    position: relative;
+    left: 6px;
+  }
+  .menu-item i{
+    transform: translateX(0px);
+    transition: font-size .1s ease, left .1s ease, transform .1s ease;
+    vertical-align: middle;
+    font-size: 36px;
+  }
+  .collapsed-menu i{
+    transform: translateX(-10px);
+    transition: font-size .1s ease .2s, left .1s ease .2s, transform .1s ease .2s;
+    vertical-align: middle;
+    font-size: 14px;
+  }
+  .collapsed-menu {
+    .ivu-icon-fork-repo{
+      left: 2px;
+    }
+  }
+}
+.view-content{
+  padding: 16px;
+}

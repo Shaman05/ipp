@@ -51,7 +51,7 @@ module.exports = function (components, template, config, util) {
 									},
 									on: {
 										click: () => {
-											console.log('show:', params.index);
+											this.viewRepo(params);
 										}
 									}
 								}, 'View'),
@@ -85,11 +85,12 @@ module.exports = function (components, template, config, util) {
 			returnHone(){
 				history.back();
 			},
-			showMore(index){
-				this.$Modal.info({
-					title: 'Repo Info',
-					content: `Name：${this.data[index].name}<br/>Age：${this.data[index].age}<br/>Address：${this.data[index].address}`
-				})
+			viewRepo(repo){
+				let {name, dir} = repo.row;
+				this.$router.push({
+					name: 'view',
+					params: {name, dir}
+				});
 			},
 			removeRepo(repo){
 				util.removeRepo.call(this, repo.row.name, ()=>{

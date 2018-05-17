@@ -52,8 +52,12 @@ module.exports = function (components, template, config, util) {
 					this.showHistoryRepos();
 				});
 			},
-			openRepo(project){
-				console.log('open project!');
+			viewRepo(repo){
+				let {name, dir} = repo;
+				this.$router.push({
+					name: 'view',
+					params: {name, dir}
+				});
 			}
 		}
 	});

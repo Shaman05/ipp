@@ -6,6 +6,7 @@ module.exports = function (components, config, util) {
 	let routeMap = {
 		'home': '首页',
 		'projects': '仓库列表',
+		'view': '详情操作'
 	};
 	let routes = [];
 	for (let route in routeMap) {

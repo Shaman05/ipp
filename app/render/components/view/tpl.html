@@ -1,0 +1,41 @@
+<div class="view">
+    <Layout>
+        <Sider collapsible
+               :collapsed-width="40"
+               v-model="isCollapsed"
+               width="80"
+               :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
+            <Menu active-name="info" theme="dark" width="auto" :class="menuItemClasses" @on-select="selectMenu">
+                <MenuItem name="back">
+                    <Icon type="reply"></Icon>
+                </MenuItem>
+                <MenuItem name="info">
+                    <Icon type="fork-repo"></Icon>
+                </MenuItem>
+                <MenuItem name="setting">
+                    <Icon type="settings"></Icon>
+                </MenuItem>
+            </Menu>
+        </Sider>
+        <Layout :style="{marginLeft: isCollapsed ? '40px' : '80px'}">
+            <Content class="view-content">
+                <Card dis-hover>
+                    <p slot="title">
+                        <Icon type="folder"></Icon> {{repoName}} ({{repoDir}})
+                    </p>
+                    <a href="#" slot="extra">
+                        <Icon type="ios-loop-strong"></Icon> Refresh
+                    </a>
+                    <div class="info">
+                        <div class="tool-bar">
+                            <Input v-model="filterKey" icon="compose" placeholder="filter commits message..." style="width: 200px"></Input>
+                        </div>
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                </Card>
+            </Content>
+        </Layout>
+    </Layout>
+</div>
