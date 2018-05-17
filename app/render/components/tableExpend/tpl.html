@@ -1,30 +1,41 @@
 <div class="table-expend">
     <Row class="expand-row">
-        <Col span="8">
-            <span class="expand-key">Job: </span>
-            <span class="expand-value">{{ row.job }}</span>
-        </Col>
-        <Col span="10">
-            <span class="expand-key">Interest: </span>
-            <span class="expand-value">{{ row.interest }}</span>
-        </Col>
-        <Col span="6">
-            <span class="expand-key">Birthday: </span>
-            <span class="expand-value">{{ row.birthday }}</span>
-        </Col>
+        <p>Dir:<a class="dir-link" href="javascript:" @click="openDir(row.dir)">
+            {{row.dir}} <Icon type="share" size="14"></Icon>
+        </a></p>
     </Row>
-    <Row>
-        <Col span="8">
-            <span class="expand-key">Favorite book: </span>
-            <span class="expand-value">《{{ row.book }}》</span>
-        </Col>
-        <Col span="8">
-            <span class="expand-key">Favorite movie: </span>
-            <span class="expand-value">{{ row.movie }}</span>
-        </Col>
-        <Col span="8">
-            <span class="expand-key">Favorite music: </span>
-            <span class="expand-value">{{ row.music }}</span>
-        </Col>
-    </Row>
+    <div class="more-info">
+        <Row>
+            <Col span="8">
+                <span class="expand-key">Current branch: </span>
+                <span class="expand-value v-branch">[{{status.current}}]</span>
+            </Col>
+            <Col span="4">
+                <span class="expand-key">Created: </span>
+                <span class="expand-value v-created">{{status.created && status.created.length}}</span>
+            </Col>
+            <Col span="4">
+                <span class="expand-key">Deleted: </span>
+                <span class="expand-value v-deleted">{{status.deleted && status.deleted.length}}</span>
+            </Col>
+            <Col span="4">
+                <span class="expand-key">Modified: </span>
+                <span class="expand-value v-modified">{{status.modified && status.modified.length}}</span>
+            </Col>
+            <Col span="4">
+                <span class="expand-key">Renamed: </span>
+                <span class="expand-value v-renamed">{{status.renamed && status.renamed.length}}</span>
+            </Col>
+        </Row>
+        <Row>
+            <h3 class="log-title">Last log summary:</h3>
+            <div class="log-summary">
+                <p><Icon type="ios-person" class="fv"></Icon> {{log.author_name}}</p>
+                <p><Icon type="email" class="fv"></Icon> {{log.author_email}}</p>
+                <p><Icon type="ios-time"></Icon> {{log.date}}</p>
+                <p><Icon type="compose"></Icon> {{log.message}}</p>
+                <p><Icon type="pricetag"></Icon> {{log.hash}}</p>
+            </div>
+        </Row>
+    </div>
 </div>

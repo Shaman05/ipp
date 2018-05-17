@@ -10,26 +10,19 @@ module.exports = function (components, template, config, util) {
 		template,
 		data(){
 			return {
-				historyList: [
-					{
-						name: 'XBlockly',
-						dir: 'F:/work-git/XBlockly'
-					},
-					{
-						name: 'XKit',
-						dir: 'E:/work-git/Xkit'
-					},
-					{
-						name: 'XKit',
-						dir: 'E:/work-git/Xkit'
-					}
-				]
+				showNum: 3,
+				historyList: []
 			}
 		},
 		created(){
-			this.storage = util.getStorage();
+			this.showHistoryRepos();
 		},
 		methods: {
+			showHistoryRepos(){
+				let storageDate = util.getStorage();
+				let totalRepos = storageDate.repos || {};
+				this.historyList = util.objectToArray(totalRepos, 'timestamp').slice(0, this.showNum);
+			},
 			addRepo(){
 				let self = this;
 				util.selectDir({
@@ -37,43 +30,30 @@ module.exports = function (components, template, config, util) {
 					onSelect(dir){
 						let repo = new Git(dir);
 						repo.status((err, result)=>{
-							let isRepo = true;
 							let title  = `添加仓库`;
 							let {name} = util.parsePath(dir);
 							if(err){
-								self.$Notice.error({
-									title,
-									desc: `添加失败，原因：<br/>${err}!`
-								});
-								isRepo = false;
+								return self.$Notice.error({title, desc: `添加失败，原因：<br/>${err}!`});
 							}
-							if(isRepo){
-								util.updateRepo(name, dir, (err)=>{
-									if(err){
-										self.$Notice.error({
-											title,
-											desc: `添加失败，原因：<br/>${err}!`
-										});
-									}else{
-										self.$Notice.success({
-											title,
-											desc: `已添加：${name}!`
-										});
-									}
-								});
-							}
+							util.updateRepo({action: 'add', name, dir}, (err)=>{
+								if(err){
+									self.$Notice.error({title, desc: `添加失败，原因：<br/>${err}!`});
+								}else{
+									self.$Notice.success({title: `已添加：${name}!`});
+									self.showHistoryRepos();
+								}
+							});
 						});
 					}
 				});
 			},
-			openMore(){
-				console.log('open more project!');
+			removeRepo(project){
+				util.removeRepo.call(this, project.name, ()=>{
+					this.showHistoryRepos();
+				});
 			},
 			openRepo(project){
 				console.log('open project!');
-			},
-			removeRepo(project){
-				console.log(`remove project:`, project);
 			}
 		}
 	});

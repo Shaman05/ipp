@@ -2,6 +2,7 @@
  * Created by ChenChao on 2018/5/16.
  */
 
+const Git = require('../../js/git');
 const Vue = require('vue/dist/vue');
 
 module.exports = function (name, template, config, util) {
@@ -10,8 +11,32 @@ module.exports = function (name, template, config, util) {
 		props: {
 			row: Object
 		},
-		mounted(){
+		data(){
+			return {
+				status: {},
+				log: []
+			}
+		},
+		mounted() {
 			console.log(`${name} mounted!`);
+			this.git = new Git(this.row.dir);
+			this.getRepoStatus();
+			this.getRepoLogs();
+		},
+		methods: {
+			openDir: util.openPath,
+			getRepoStatus(){
+				this.git.status((err, result)=>{
+					console.log(result);
+					this.status = result;
+				});
+			},
+			getRepoLogs(){
+				this.git.getLogs((err, result)=>{
+					console.log(result);
+					this.log = result.latest;
+				});
+			}
 		}
 	}));
 };

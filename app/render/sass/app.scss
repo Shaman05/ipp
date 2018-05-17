@@ -17,6 +17,9 @@ body{
     text-align: center;
   }
 }
+.no-data{
+  text-align: center;
+}
 .home{
   .content{
     width: 70%;
@@ -29,6 +32,13 @@ body{
     h3{
       padding: 10px 0;
     }
+    .prj-list-warp{
+      height: 126px;
+      overflow: hidden;
+      .no-data{
+        line-height: 126px;
+      }
+    }
     .prj-list{
       list-style: none;
       li{
@@ -38,7 +48,7 @@ body{
         cursor: pointer;
         position: relative;
         &:hover{
-          box-shadow: 0 0 30px #d3d3d3 inset;
+          box-shadow: 0 0 30px #e1e1e1 inset;
         }
         .del-icon{
           position: absolute;
@@ -60,16 +70,55 @@ body{
     }
   }
 }
-.project{
+.projects{
   position: relative;
   .back-icon{
     position: absolute;
     z-index: 2;
     top: 4px;
-    left: 10px;
+    left: 16px;
     cursor: pointer;
   }
   .ivu-table-wrapper{
     border: none;
+    cursor: default;
+  }
+  .ivu-table-body{
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .dir-link{
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  .v-branch{
+    font-weight: bold;
+    color: #2889f0;
+  }
+  .v-created{
+    color: green;
+  }
+  .v-modified,
+  .v-deleted{
+    color: red;
+  }
+  .v-renamed{
+    color: rebeccapurple;
+  }
+  .log-title{
+    margin-top: 4px;
+    font-size: 12px;
+  }
+  .log-summary{
+    padding-left: 6px;
+    .ivu-icon{
+      width: 16px;
+      text-align: center;
+    }
+    .fv{
+      font-size: 14px;
+      vertical-align: middle;
+    }
   }
 }

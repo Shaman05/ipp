@@ -6,20 +6,21 @@
         <i-button type="dashed" size="large" long icon="plus-round" @click="addRepo">添加新仓库</i-button>
         <Card>
             <p slot="title">
-                <Icon type="fork-repo"></Icon>
-                最近打开的
+                <Icon type="fork-repo"></Icon> 最近使用
             </p>
-            <a href="javascript:" slot="extra" @click.prevent="openMore">
+            <a href="javascript:" slot="extra">
                 <router-link to="/projects">查看全部</router-link>
-                <!--<Icon type="share" size="16"></Icon>-->
             </a>
-            <ul class="prj-list">
-                <li v-for="item in historyList" @click="openRepo(item)">
-                    <div class="name">{{item.name}}</div>
-                    <div class="dir">{{item.dir}}</div>
-                    <span class="del-icon" @click.stop="removeRepo(item)"><Icon type="android-delete" size="24"></Icon></span>
-                </li>
-            </ul>
+            <div class="prj-list-warp">
+                <ul class="prj-list">
+                    <li v-for="item in historyList" @click="openRepo(item)">
+                        <div class="name">{{item.name}}</div>
+                        <div class="dir">{{item.dir}}</div>
+                        <span class="del-icon" @click.stop="removeRepo(item)"><Icon type="android-delete" size="24"></Icon></span>
+                    </li>
+                </ul>
+                <p class="no-data" v-if="historyList.length === 0">暂无数据</p>
+            </div>
         </Card>
     </div>
 </div>

@@ -14,7 +14,7 @@ module.exports = function (components, template, config, util) {
 				columns: [
 					{
 						type: 'expand',
-						width: 50,
+						width: 60,
 						render: (h, params)=>{
 							return h(tableExpend, {
 								props: {
@@ -24,16 +24,15 @@ module.exports = function (components, template, config, util) {
 						}
 					},
 					{
-						title: 'Name',
-						key: 'name'
+						title: 'Repository',
+						key: 'name',
+						sortable: true
 					},
 					{
-						title: 'Age',
-						key: 'age'
-					},
-					{
-						title: 'Address',
-						key: 'address'
+						title: 'Last open',
+						key: 'open',
+						sortable: true,
+						sortType: 'desc'
 					},
 					{
 						title: 'Action',
@@ -53,7 +52,6 @@ module.exports = function (components, template, config, util) {
 									on: {
 										click: () => {
 											console.log('show:', params.index);
-											this.showMore(params.index);
 										}
 									}
 								}, 'View'),
@@ -64,8 +62,7 @@ module.exports = function (components, template, config, util) {
 									},
 									on: {
 										click: () => {
-											console.log('delete:', params.index);
-											this.removeRepo(params.index);
+											this.removeRepo(params);
 										}
 									}
 								}, 'Delete')
@@ -73,42 +70,16 @@ module.exports = function (components, template, config, util) {
 						}
 					}
 				],
-				data: [
-					{
-						name: 'John Brown',
-						age: 18,
-						address: 'New York No. 1 Lake Park',
-						job: 'Data engineer',
-						interest: 'badminton',
-						birthday: '1991-05-14',
-						book: 'Steve Jobs',
-						movie: 'The Prestige',
-						music: 'I Cry'
-					},
-					{
-						name: 'Jim Green',
-						age: 25,
-						address: 'London No. 1 Lake Park',
-						job: 'Data Scientist',
-						interest: 'volleyball',
-						birthday: '1989-03-18',
-						book: 'My Struggle',
-						movie: 'Roman Holiday',
-						music: 'My Heart Will Go On'
-					},
-					{
-						name: 'Joe Black',
-						age: 30,
-						address: 'Sydney No. 1 Lake Park',
-						job: 'Data Product Manager',
-						interest: 'tennis',
-						birthday: '1992-01-31',
-						book: 'Win',
-						movie: 'Jobs',
-						music: 'Don’t Cry'
-					}
-				]
+				data: []
 			}
+		},
+		created(){
+			let storageDate = util.getStorage();
+			let totalRepos = storageDate.repos || {};
+			totalRepos = util.objectToArray(totalRepos);
+			totalRepos.forEach((repo, index)=>{
+				this.data.push(repo);
+			});
 		},
 		methods: {
 			returnHone(){
@@ -120,8 +91,10 @@ module.exports = function (components, template, config, util) {
 					content: `Name：${this.data[index].name}<br/>Age：${this.data[index].age}<br/>Address：${this.data[index].address}`
 				})
 			},
-			removeRepo(index){
-				this.data.splice(index, 1);
+			removeRepo(repo){
+				util.removeRepo.call(this, repo.row.name, ()=>{
+					this.data.splice(repo.index, 1);
+				});
 			}
 		}
 	});
