@@ -20,7 +20,8 @@ module.exports = {
 		ico48: resourcesFile('ZIP_48x48.ico'),
 		ico128: resourcesFile('ZIP_128x128.ico'),
 	},
-	debug: false
+	debug: false,
+	storage: path.join(processCwd, 'repos.json')
 };
 
 function resourcesFile(name) {

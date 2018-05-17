@@ -10,3 +10,4 @@ package-lock.json
 release/
 logs/
 downloads/
+repos.json

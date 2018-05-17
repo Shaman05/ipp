@@ -10,6 +10,13 @@ function Git(dir, options){
 }
 
 Git.prototype = {
+	status(callback){
+		this.git.status((err, result)=>{
+			console.log(err);
+			console.log(result);
+			callback && callback(err, result);
+		});
+	},
 	getLogs(callback){
 		this.git.log((err, result)=>{
 			console.log(err);
