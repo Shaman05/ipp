@@ -29,7 +29,7 @@ module.exports = function (components, template, config, util) {
 						sortable: true
 					},
 					{
-						title: 'Last open',
+						title: 'Last view',
 						key: 'open',
 						sortable: true,
 						sortType: 'desc'
