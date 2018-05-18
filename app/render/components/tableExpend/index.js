@@ -14,7 +14,9 @@ module.exports = function (name, template, config, util) {
 		data(){
 			return {
 				status: {},
-				log: []
+				statusReady: false,
+				latestLog: {},
+				latestLogReady: false
 			}
 		},
 		mounted() {
@@ -29,12 +31,14 @@ module.exports = function (name, template, config, util) {
 				this.git.status((err, result)=>{
 					console.log(result);
 					this.status = result;
+					this.statusReady = true;
 				});
 			},
 			getRepoLogs(){
 				this.git.getLogs((err, result)=>{
 					console.log(result);
-					this.log = result.latest;
+					this.latestLog = result.latest;
+					this.latestLogReady = true;
 				});
 			}
 		}

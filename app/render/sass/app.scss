@@ -20,6 +20,14 @@ body{
 .no-data{
   text-align: center;
 }
+.spin-icon-load{
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from { transform: rotate(0deg);}
+  50%  { transform: rotate(180deg);}
+  to   { transform: rotate(360deg);}
+}
 .home{
   .content{
     width: 70%;
@@ -110,6 +118,10 @@ body{
     margin-top: 4px;
     font-size: 12px;
   }
+  .more-info{
+    position: relative;
+    min-height: 100px;
+  }
   .log-summary{
     padding-left: 6px;
     .ivu-icon{
@@ -150,4 +162,61 @@ body{
 }
 .view-content{
   padding: 16px;
+  .ivu-card-head{
+    border-bottom: none;
+  }
+  .ivu-card-body{
+    display: none;
+  }
+  .tool-bar{
+    margin: 12px 0;
+  }
+  .build-select{
+    margin-left: 12px;
+    font-size: 14px;
+    a{
+      cursor: default;
+    }
+  }
+  .unset{
+    color: red;
+  }
+  .can-build{
+    color: green;
+  }
+  .history-wrap{
+    position: relative;
+    height: 410px;
+    padding-left: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    p{margin: 0}
+    border: 1px solid #e9eaec;
+  }
+  .logs-list{
+    li{
+      font-size: 12px;
+      line-height: normal;
+      border-bottom: 1px dotted #e9eaec;
+      padding: 3px 0 3px 24px;
+      position: relative;
+      cursor: default;
+      &:last-of-type{
+        border-bottom: none;
+      }
+      .commit-icon{
+        font-size: 22px;
+        color: green;
+        position: absolute;
+        left: 0;
+        top: 5px;
+      }
+      .hash{
+        cursor: default;
+      }
+      .add-hash{
+        cursor: pointer;
+      }
+    }
+  }
 }

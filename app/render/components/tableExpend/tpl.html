@@ -5,7 +5,11 @@
         </a></p>
     </Row>
     <div class="more-info">
-        <Row>
+        <Spin fix v-if="!statusReady && !latestLogReady">
+            <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
+            <div>Loading</div>
+        </Spin>
+        <Row v-if="statusReady">
             <Col span="8">
                 <span class="expand-key">Current branch: </span>
                 <span class="expand-value v-branch">[{{status.current}}]</span>
@@ -27,14 +31,14 @@
                 <span class="expand-value v-renamed">{{status.renamed && status.renamed.length}}</span>
             </Col>
         </Row>
-        <Row>
+        <Row v-if="latestLogReady">
             <h3 class="log-title">Last log summary:</h3>
             <div class="log-summary">
-                <p><Icon type="ios-person" class="fv"></Icon> {{log.author_name}}</p>
-                <p><Icon type="email" class="fv"></Icon> {{log.author_email}}</p>
-                <p><Icon type="ios-time"></Icon> {{log.date}}</p>
-                <p><Icon type="compose"></Icon> {{log.message}}</p>
-                <p><Icon type="pricetag"></Icon> {{log.hash}}</p>
+                <p><Icon type="ios-person" class="fv"></Icon> {{latestLog.author_name}}</p>
+                <p><Icon type="email" class="fv"></Icon> {{latestLog.author_email}}</p>
+                <p><Icon type="ios-time"></Icon> {{latestLog.date}}</p>
+                <p><Icon type="compose"></Icon> {{latestLog.message}}</p>
+                <p><Icon type="pricetag"></Icon> {{latestLog.hash}}</p>
             </div>
         </Row>
     </div>

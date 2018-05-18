@@ -21,20 +21,42 @@
             <Content class="view-content">
                 <Card dis-hover>
                     <p slot="title">
-                        <Icon type="folder"></Icon> {{repoName}} ({{repoDir}})
+                        <Icon type="folder"></Icon> {{repoName}} <!--({{repoDir}})-->
                     </p>
-                    <a href="#" slot="extra">
+                    <a href="#" slot="extra" @click="refreshLogs">
                         <Icon type="ios-loop-strong"></Icon> Refresh
                     </a>
-                    <div class="info">
-                        <div class="tool-bar">
-                            <Input v-model="filterKey" icon="compose" placeholder="filter commits message..." style="width: 200px"></Input>
-                        </div>
-                        <ul>
-                            <li></li>
+                </Card>
+                <div class="info">
+                    <div class="tool-bar">
+                        <Input v-model="filterKey" icon="compose" placeholder="filter commits message..." style="width: 200px"></Input>
+                        <span class="build-select">
+                            Build zip between version: &nbsp;
+                            <a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>
+                            &nbsp;-&nbsp;
+                            <a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>
+                            &nbsp;
+                            <Icon type="hammer" :class="{'can-build': canBuild()}"></Icon>
+                        </span>
+                    </div>
+                    <div class="history-wrap">
+                        <Spin fix v-if="!logsReady">
+                            <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
+                            <div>Loading</div>
+                        </Spin>
+                        <ul class="logs-list" v-if="logsReady">
+                            <li v-for="log in displayLogs" v-show="log.message.indexOf(filterKey) > -1">
+                                <Icon type="pull-request" class="commit-icon"></Icon>
+                                <div>
+                                    <strong>{{log.message}}</strong>&nbsp;
+                                    <a href="javascript:" class="hash" :title="log.hash">{{log.hash.substr(0, 7)}}</a>
+                                    <a href="javascript:" class="add-ash" @click="addLog(log)" title="add this hash to build param"><Icon type="wand"></Icon></a>
+                                </div>
+                                <div>{{log.date}} by {{log.author_name}}</div>
+                            </li>
                         </ul>
                     </div>
-                </Card>
+                </div>
             </Content>
         </Layout>
     </Layout>
