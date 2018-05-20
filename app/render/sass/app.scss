@@ -170,10 +170,12 @@ body{
   }
   .tool-bar{
     margin: 12px 0;
+    overflow: hidden;
   }
   .build-select{
-    margin-left: 12px;
+    margin-left: 2px;
     font-size: 14px;
+    line-height: 32px;
     a{
       cursor: default;
     }
@@ -198,9 +200,12 @@ body{
       font-size: 12px;
       line-height: normal;
       border-bottom: 1px dotted #e9eaec;
-      padding: 3px 0 3px 24px;
+      padding: 3px 0 3px 28px;
       position: relative;
       cursor: default;
+      &:hover{
+        background: rgba(255, 243, 199, 0.72);
+      }
       &:last-of-type{
         border-bottom: none;
       }
@@ -208,7 +213,7 @@ body{
         font-size: 22px;
         color: green;
         position: absolute;
-        left: 0;
+        left: 6px;
         top: 5px;
       }
       .hash{

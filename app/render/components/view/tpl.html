@@ -12,7 +12,7 @@
                 <MenuItem name="info">
                     <Icon type="fork-repo"></Icon>
                 </MenuItem>
-                <MenuItem name="setting">
+                <MenuItem name="build">
                     <Icon type="settings"></Icon>
                 </MenuItem>
             </Menu>
@@ -23,23 +23,29 @@
                     <p slot="title">
                         <Icon type="folder"></Icon> {{repoName}} <!--({{repoDir}})-->
                     </p>
-                    <a href="#" slot="extra" @click="refreshLogs">
+                    <a href="#" slot="extra" @click="refreshLogs" v-if="tab === 'info'">
                         <Icon type="ios-loop-strong"></Icon> Refresh
                     </a>
                 </Card>
                 <div class="info">
                     <div class="tool-bar">
-                        <Input v-model="filterKey" icon="compose" placeholder="filter commits message..." style="width: 200px"></Input>
+                        <Input v-model="filterKey"
+                               icon="compose"
+                               placeholder="filter commits message..."
+                               v-if="tab === 'info'"
+                               style="width: 240px; float: right">
+                        </Input>
                         <span class="build-select">
                             Build zip between version: &nbsp;
                             <a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>
                             &nbsp;-&nbsp;
                             <a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>
                             &nbsp;
-                            <Icon type="hammer" :class="{'can-build': canBuild()}"></Icon>
+                            <!--<Icon type="hammer" :class="{'can-build': canBuild()}"></Icon>-->
+                            <i-button icon="hammer" v-if="tab === 'build'">ZIP</i-button>
                         </span>
                     </div>
-                    <div class="history-wrap">
+                    <div class="history-wrap" v-if="tab === 'info'">
                         <Spin fix v-if="!logsReady">
                             <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
                             <div>Loading</div>
@@ -56,6 +62,9 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="build" v-if="tab === 'build'">
+                    <h2>build</h2>
                 </div>
             </Content>
         </Layout>

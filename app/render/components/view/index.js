@@ -10,6 +10,7 @@ module.exports = function (components, template, config, util) {
 		template,
 		data() {
 			return {
+				tab: 'info',
 				isCollapsed: false,
 				repoName: '',
 				repoDir: '',
@@ -58,11 +59,12 @@ module.exports = function (components, template, config, util) {
 				if(name === 'info'){
 					this.openRepo();
 				}
-				if(name === 'setting'){
-					this.setting();
+				if(name === 'build'){
+					this.tab = 'build';
 				}
 			},
 			openRepo(){
+				this.tab = 'info';
 				this.git.getLogs((err, result)=>{
 					console.log(result);
 					this.logs = result.all;
