@@ -86,12 +86,21 @@ module.exports = function (components, template, config, util) {
 			},
 			addLog(log){
 				this.buildArray.push(log);
-				console.log(this.buildArray);
+				if(this.canBuild()){
+					this.selectMenu('build');
+				}
 			},
 			canBuild() {
-				return this.betweenVersion.fromHash && this.betweenVersion.toHash;
+				return !!this.betweenVersion.fromHash && !!this.betweenVersion.toHash;
 			},
-			setting(){}
+			setting(){},
+			build(){
+				let {formHash, toHash} = this.betweenVersion;
+				console.log(this.git)
+				this.git.git.diffSummary(formHash, toHash, (err, result)=>{
+					console.log(result);
+				});
+			}
 		}
 	});
 };

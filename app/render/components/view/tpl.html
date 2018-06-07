@@ -5,7 +5,7 @@
                v-model="isCollapsed"
                width="80"
                :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="info" theme="dark" width="auto" :class="menuItemClasses" @on-select="selectMenu">
+            <Menu :active-name="tab" theme="dark" width="auto" :class="menuItemClasses" @on-select="selectMenu">
                 <MenuItem name="back">
                     <Icon type="reply"></Icon>
                 </MenuItem>
@@ -36,13 +36,15 @@
                                style="width: 240px; float: right">
                         </Input>
                         <span class="build-select">
-                            Build zip between version: &nbsp;
-                            <a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>
-                            &nbsp;-&nbsp;
-                            <a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>
-                            &nbsp;
-                            <!--<Icon type="hammer" :class="{'can-build': canBuild()}"></Icon>-->
-                            <i-button icon="hammer" v-if="tab === 'build'">ZIP</i-button>
+                            Selected versions: &nbsp;
+                            <!--<a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>-->
+                            <!--&nbsp;-&nbsp;-->
+                            <!--<a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>-->
+                            <!--&nbsp;-->
+                            <Tag type="dot" :color="betweenVersion.fromHash ? 'green' : 'red'" :title="betweenVersion.fromMsg">{{betweenVersion.fromHash || 'unset'}}</Tag>
+                            ~
+                            <Tag type="dot" :color="betweenVersion.toHash ? 'green' : 'red'" :title="betweenVersion.toMsg">{{betweenVersion.toHash || 'unset'}}</Tag>
+                            <i-button icon="hammer" type="success" v-if="tab === 'build'" :disabled="!canBuild()" @click="build">Build</i-button>
                         </span>
                     </div>
                     <div class="history-wrap" v-if="tab === 'info'">
