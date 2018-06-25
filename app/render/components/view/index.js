@@ -65,8 +65,6 @@ module.exports = function (components, template, config, util) {
 				if(name === 'build'){
 					this.tab = 'build';
 					let tasks = this.gulp.getTasks();
-					console.log(tasks);
-					this.gulp.runTaskByName('test');
 				}
 			},
 			openRepo(){
@@ -102,7 +100,11 @@ module.exports = function (components, template, config, util) {
 			setting(){},
 			build(){
 				let {fromHash, toHash} = this.betweenVersion;
-				this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`]);
+				this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`], {
+					onData(data){},
+					onError(data){},
+					onEnd(code){},
+				});
 			},
 			construct(){
 			

@@ -48,7 +48,7 @@ Gulp.prototype = {
 		});
 		return task;
 	},
-	runTaskByName(taskName, params){
+	runTaskByName(taskName, params, callbacks){
 		let taskCommand = '';
 		this.tasks.forEach((task, index)=> {
 			let {name, command} = task;
@@ -60,7 +60,7 @@ Gulp.prototype = {
 		if(params){
 			command = command.concat(params);
 		}
-		taskCommand && util.runCommand(command, this.rootDir, {});
+		taskCommand && util.runCommand(command, this.rootDir, callbacks || {});
 	}
 };
 
