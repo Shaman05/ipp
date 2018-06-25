@@ -4,6 +4,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const {spawn, exec} = require('child_process');
 const {shell, ipcRenderer, remote} = require('electron');
 let {storage} = require('../../config');
 
@@ -84,5 +85,31 @@ module.exports = {
 	},
 	parsePath(_path){
 		return path.parse(_path);
+	},
+	
+	runCommand(command, cwd, callbacks){
+		let fullCommand = spawn(`node`, command, {
+			cwd
+		});
+		let onData = callbacks.onData || function (data) {};
+		let onError = callbacks.onError || function (data) {};
+		let onClose = callbacks.onClose || function (code) {};
+		let groupTitle = `===== "node ${command.join(' ')}" =====`;
+		console.group(groupTitle);
+		fullCommand.stdout.on('data', (data) => {
+			console.log(`stdout: ${data}`);
+			onData && onData(data);
+		});
+		
+		fullCommand.stderr.on('data', (data) => {
+			console.log(`stderr: ${data}`);
+			onError && onError(data);
+		});
+		
+		fullCommand.on('close', (code) => {
+			console.log(`子进程退出码：${code}`);
+			onClose && onClose(code);
+			console.groupEnd(groupTitle);
+		});
 	}
 };

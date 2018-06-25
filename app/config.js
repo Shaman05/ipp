@@ -15,10 +15,10 @@ module.exports = {
 	},
 	entry: path.join(__dirname, 'index.html'),
 	icons: {
-		png48: resourcesFile('ZIP_48x48.png'),
-		png128: resourcesFile('ZIP_128x128.png'),
-		ico48: resourcesFile('ZIP_48x48.ico'),
-		ico128: resourcesFile('ZIP_128x128.ico'),
+		png48: resourcesFile('logo-48x48.png'),
+		png128: resourcesFile('logo-128x128.png'),
+		ico48: resourcesFile('logo-48x48.ico'),
+		ico128: resourcesFile('logo-128x128.ico'),
 	},
 	debug: false,
 	storage: path.join(processCwd, 'repos.json')

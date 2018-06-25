@@ -3,6 +3,7 @@
  */
 
 const Git = require('../../js/git');
+const Gulp = require('../../js/gulp');
 const Vue = require('vue/dist/vue');
 
 module.exports = function (components, template, config, util) {
@@ -50,6 +51,8 @@ module.exports = function (components, template, config, util) {
 			this.repoDir = dir;
 			this.git = new Git(dir);
 			this.openRepo();
+			this.gulp = new Gulp(dir, {});
+			this.gulp.initGulpShell();
 		},
 		methods: {
 			selectMenu(name){
@@ -61,6 +64,9 @@ module.exports = function (components, template, config, util) {
 				}
 				if(name === 'build'){
 					this.tab = 'build';
+					let tasks = this.gulp.getTasks();
+					console.log(tasks);
+					this.gulp.runTaskByName('test');
 				}
 			},
 			openRepo(){
@@ -95,11 +101,15 @@ module.exports = function (components, template, config, util) {
 			},
 			setting(){},
 			build(){
-				let {formHash, toHash} = this.betweenVersion;
-				console.log(this.git)
-				this.git.git.diffSummary(formHash, toHash, (err, result)=>{
-					console.log(result);
-				});
+				let {fromHash, toHash} = this.betweenVersion;
+				this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`]);
+			},
+			construct(){
+			
+			},
+			md5(){},
+			print(content){
+			
 			}
 		}
 	});

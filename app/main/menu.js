@@ -12,16 +12,11 @@ module.exports = {
 				label: 'Open',
 				submenu: [
 					{
-						label: 'Repository',
+						label: '添加仓库',
 						accelerator: 'CmdOrCtrl+O',
 						click(){
 							//todo: open dir
 						}
-					},
-					{type: 'separator'},
-					{
-						label: 'Exit',
-						role: 'close'
 					}
 				]
 			},
@@ -29,7 +24,7 @@ module.exports = {
 				label: 'Tools',
 				submenu: [
 					{
-						label: 'Hash File',
+						label: 'md5 校验',
 						click(){
 							//todo:
 						}
@@ -40,17 +35,17 @@ module.exports = {
 				label: 'Help',
 				submenu: [
 					{
-						label: 'Learn More',
+						label: '帮 助',
 						accelerator: 'CmdOrCtrl+H',
 						click(){
 							shell.openExternal('https://github.com/Shaman05/ipp');
 						}
 					},
 					{
-						label: 'About',
+						label: '关 于',
 						click(){
 							let msg = [
-								`关于增量打包程序`,
+								`关于 ${pkg.name}`,
 								`版本: ${pkg.version}`,
 								`作者: ${pkg.author}`,
 								`由 Electron + Vue + Webpack 驱动.`
@@ -74,17 +69,11 @@ module.exports = {
 		
 		if(debug){
 			template.push({
-				label: 'Debug',
+				label: 'Window',
 				submenu: [
-					{role: 'reload'},
-					{role: 'forcereload'},
-					{role: 'toggledevtools'},
+					{label: '全屏切换', role: 'togglefullscreen'},
 					{type: 'separator'},
-					{role: 'resetzoom'},
-					{role: 'zoomin'},
-					{role: 'zoomout'},
-					{type: 'separator'},
-					{role: 'togglefullscreen'}
+					{label: '退 出', role: 'close', accelerator: 'CmdOrCtrl+',}
 				]
 			});
 		}

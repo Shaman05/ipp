@@ -1,7 +1,7 @@
 {
-  "name": "ipp",
+  "name": "XBuild",
   "version": "1.0.0",
-  "description": "Incremental package publisher.",
+  "description": "Tools builder & publisher.",
   "main": "app/main/main.js",
   "scripts": {
     "dev": "E:/electron-v2.0.0-win32-ia32/electron.exe .",
@@ -22,5 +22,11 @@
     "simple-git": "^1.92.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^3.0.0",
+    "uglify-es": "^3.3.9"
   }
 }

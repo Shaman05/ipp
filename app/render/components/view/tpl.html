@@ -36,7 +36,8 @@
                                style="width: 240px; float: right">
                         </Input>
                         <span class="build-select">
-                            Selected versions: &nbsp;
+                            <Icon type="help" color="blue" size="18" title="将输出选择的两个版本号之间的增量包"></Icon>
+                            <span>指定版本选择：</span>&nbsp;
                             <!--<a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>-->
                             <!--&nbsp;-&nbsp;-->
                             <!--<a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>-->
@@ -66,7 +67,21 @@
                     </div>
                 </div>
                 <div class="build" v-if="tab === 'build'">
-                    <h2>build</h2>
+                    <div class="task-row">
+                        <Icon type="help" color="blue" size="18" title="快速构建应用的源码输出，用于安装程序的打包"></Icon>
+                        <span>快速构建：</span>&nbsp;
+                        <i-button icon="settings" type="success" @click="construct">Construct</i-button>
+                    </div>
+                    <div class="task-row">
+                        <Icon type="help" color="blue" size="18" title="校验指定文件的 md5 sha1 输出"></Icon>
+                        <span>MD5校验：</span>&nbsp;
+                        <i-button icon="key" type="success" @click="md5">Hash file</i-button>
+                    </div>
+                    <div class="console-output">
+                        <h3>输出：</h3>
+                        <div class="output-box">
+                        </div>
+                    </div>
                 </div>
             </Content>
         </Layout>

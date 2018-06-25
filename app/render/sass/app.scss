@@ -8,10 +8,11 @@ body{
 
 }
 .app-wall{
-  width: 320px;
+  width: 380px;
   margin: 0 auto;
   padding-top: 180px;
-  background: url("../images/ZIP_128x128.png") no-repeat center;
+  background: url("../images/logo-48x48.png") no-repeat center;
+  background-size: 24%;
   p{
     font-size: 14px;
     text-align: center;
@@ -226,5 +227,23 @@ body{
         cursor: pointer;
       }
     }
+  }
+}
+.task-row{
+  margin-bottom: 12px;
+  .ivu-btn>.ivu-icon{
+    font-size: 16px;
+    position: relative;
+    bottom: -1px;
+  }
+}
+.console-output{
+  .output-box{
+    height: 274px;
+    overflow: auto;
+    background: #393939;
+    padding: 2px 6px;
+    font-size: 13px;
+    color: white;
   }
 }
