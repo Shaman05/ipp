@@ -21,7 +21,8 @@ module.exports = function (components, template, config, util) {
 				latestLog: {},
 				logsReady: false,
 				pageSize: 20,
-				buildArray: []
+				buildArray: [],
+				hashResult: null
 			}
 		},
 		computed: {
@@ -60,11 +61,12 @@ module.exports = function (components, template, config, util) {
 					history.back();
 				}
 				if(name === 'info'){
+					this.hashResult = null;
 					this.openRepo();
 				}
 				if(name === 'build'){
 					this.tab = 'build';
-					let tasks = this.gulp.getTasks();
+					//let tasks = this.gulp.getTasks();
 				}
 			},
 			openRepo(){
@@ -136,9 +138,27 @@ module.exports = function (components, template, config, util) {
 			publish(){
 				//util.sendCommand('print', 'Test print message, haha!!!');
 			},
-			md5(){},
-			print(content){
-			
+			md5(){
+				let self = this;
+				util.selectDir({
+					title: `请选择要校验的文件`,
+					defaultPath: this.repoDir,
+					onSelect(filePath) {
+						let hashResult = util.hashFile(filePath, (e)=> {
+							self.$Notice.error({title, desc: `SHA1 失败，原因：<br/>${e}!`});
+						});
+						if(hashResult){
+							let {hash, size} = hashResult;
+							self.$Notice.success({title: `Hash：${hash}`});
+							self.hashResult = JSON.stringify({
+								file: filePath,
+								hash,
+								method: `md5 sha1`,
+								size
+							}, true, 2);
+						}
+					}
+				}, true);
 			}
 		}
 	});

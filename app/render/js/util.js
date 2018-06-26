@@ -4,6 +4,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const iconv = require('iconv-lite');
 const BufferHelper = require('bufferhelper');
 const {spawn, exec} = require('child_process');
@@ -18,12 +19,18 @@ module.exports = {
 	openPath(path){
 		shell.openItem(path);
 	},
-	selectDir(options){
+	selectDir(options, isSelectFile){
 		let dialog = remote.dialog;
-		dialog.showOpenDialog({
-			title: options.title || 'please select a directory',
-			properties: ['openDirectory']
-		}, function (filenames) {
+		let defaultTitle = isSelectFile ? `please select a file!` : `Please select a directory!`;
+		let properties = isSelectFile ? ['openFile'] : ['openDirectory'];
+		let dialogOptions = {
+			title: options.title || defaultTitle,
+			properties
+		};
+		if(options.defaultPath){
+			dialogOptions.defaultPath = options.defaultPath;
+		}
+		dialog.showOpenDialog(remote.getCurrentWindow(), dialogOptions, function (filenames) {
 			if (filenames) {
 				options.onSelect && options.onSelect(filenames[0]);
 			} else {
@@ -120,5 +127,19 @@ module.exports = {
 	
 	sendCommand(action, message){
 		ipcRenderer.send(action, message);
+	},
+	
+	hashFile(filePath, onError){
+		try{
+			let stat = fs.statSync(filePath);
+			return {
+				hash: crypto.createHash('sha1').update(JSON.stringify(stat)).digest('hex'),
+				size: stat.size
+			};
+		}catch (e){
+			onError && onError(e);
+			return '';
+		}
+		
 	}
 };
