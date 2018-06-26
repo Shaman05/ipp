@@ -54,7 +54,8 @@
                                 <!--<span title="delete this" @click="deleteToHash">x</span>-->
                             </Tag>
                             <i-button icon="refresh" type="error" v-if="tab === 'info'" :disabled="!canClear()" @click="resetVersions">Clear</i-button>
-                            <i-button icon="hammer" type="success" v-if="tab === 'build'" :disabled="!canBuild()" @click="build">Build</i-button>
+                            <i-button icon="hammer" :loading="runStatus.action === 'build' && runStatus.isRunning" type="success" v-if="tab === 'build'"
+                                      :disabled="!canBuild()" @click="build">Build</i-button>
                         </span>
                     </div>
                     <div class="history-wrap" v-if="tab === 'info'">
@@ -82,12 +83,12 @@
                     <div class="task-row">
                         <Icon type="help" color="blue" size="18" title="快速构建应用的源码输出，用于安装程序的打包"></Icon>
                         <span>快速构建：</span>&nbsp;
-                        <i-button icon="settings" type="success" @click="construct">Construct</i-button>
+                        <i-button icon="settings" :loading="runStatus.action === 'construct' && runStatus.isRunning" type="success" @click="construct">Construct</i-button>
                     </div>
                     <div class="task-row">
                         <Icon type="help" color="blue" size="18" title="将构建好的源码打包成安装程序"></Icon>
                         <span>发布应用：</span>&nbsp;
-                        <i-button icon="settings" type="success" @click="publish">Publish</i-button>
+                        <i-button icon="settings" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">Publish</i-button>
                     </div>
                     <div class="row-title">
                         <span>后续操作：</span>

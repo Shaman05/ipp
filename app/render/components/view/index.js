@@ -22,7 +22,11 @@ module.exports = function (components, template, config, util) {
 				logsReady: false,
 				pageSize: 20,
 				buildArray: [],
-				hashResult: null
+				hashResult: null,
+				runStatus: {
+					action: '',
+					isRunning: false
+				}
 			}
 		},
 		computed: {
@@ -105,34 +109,47 @@ module.exports = function (components, template, config, util) {
 			resetVersions(){
 				this.buildArray = [{}, {}];
 			},
-			setting(){},
-			build(){
-				let {fromHash, toHash} = this.betweenVersion;
+			beforeRun(action, next) {
+				if(this.runStatus.isRunning){
+					return this.$Notice.error({title: `请等待正在运行的任务结束！`});
+				}
+				this.runStatus = { action, isRunning: true };
 				util.sendCommand('open console');
-				this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`], {
-					onData(data){
-						util.sendCommand('print', data);
-					},
-					onError(data){
-						util.sendCommand('print', data);
-					},
-					onEnd(code){
-						util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
-					}
+				next();
+			},
+			build(){
+				let self = this;
+				this.beforeRun('build', ()=>{
+					let {fromHash, toHash} = this.betweenVersion;
+					this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`], {
+						onData(data){
+							util.sendCommand('print', data);
+						},
+						onError(data){
+							util.sendCommand('print', data);
+						},
+						onEnd(code){
+							self.runStatus = { action: '', isRunning: false };
+							util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
+						}
+					});
 				});
 			},
 			construct(){
-				util.sendCommand('open console');
-				this.gulp.runTaskByName('build', [], {
-					onData(data){
-						util.sendCommand('print', data);
-					},
-					onError(data){
-						util.sendCommand('print', data);
-					},
-					onEnd(code){
-						util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
-					}
+				let self = this;
+				this.beforeRun('construct', ()=> {
+					this.gulp.runTaskByName('build', [], {
+						onData(data){
+							util.sendCommand('print', data);
+						},
+						onError(data){
+							util.sendCommand('print', data);
+						},
+						onEnd(code){
+							self.runStatus = { action: '', isRunning: false };
+							util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
+						}
+					});
 				});
 			},
 			publish(){
@@ -145,11 +162,11 @@ module.exports = function (components, template, config, util) {
 					defaultPath: this.repoDir,
 					onSelect(filePath) {
 						let hashResult = util.hashFile(filePath, (e)=> {
-							self.$Notice.error({title, desc: `SHA1 失败，原因：<br/>${e}!`});
+							self.$Notice.error({title: `SHA1 失败`, desc: `原因：<br/>${e}!`});
 						});
 						if(hashResult){
 							let {hash, size} = hashResult;
-							self.$Notice.success({title: `Hash：${hash}`});
+							self.$Notice.success({title: `Success!`});
 							self.hashResult = JSON.stringify({
 								file: filePath,
 								hash,
