@@ -4,6 +4,8 @@
 
 const path = require('path');
 const fs = require('fs');
+const iconv = require('iconv-lite');
+const BufferHelper = require('bufferhelper');
 const {spawn, exec} = require('child_process');
 const {shell, ipcRenderer, remote} = require('electron');
 let {storage} = require('../../config');
@@ -93,23 +95,30 @@ module.exports = {
 		});
 		let onData = callbacks.onData || function (data) {};
 		let onError = callbacks.onError || function (data) {};
-		let onClose = callbacks.onClose || function (code) {};
+		let onEnd = callbacks.onEnd || function (code) {};
 		let groupTitle = `===== "node ${command.join(' ')}" =====`;
 		console.group(groupTitle);
 		fullCommand.stdout.on('data', (data) => {
-			console.log(`stdout: ${data}`);
-			onData && onData(data);
+			let buffer = new BufferHelper();
+			buffer = buffer.concat(data);
+			let str = iconv.decode(buffer.toBuffer(), 'utf8');
+			onData && onData(str);
 		});
 		
 		fullCommand.stderr.on('data', (data) => {
-			console.log(`stderr: ${data}`);
-			onError && onError(data);
+			let buffer = new BufferHelper();
+			buffer = buffer.concat(data);
+			let str = iconv.decode(buffer.toBuffer(), 'utf8');
+			onError && onError(str);
 		});
 		
 		fullCommand.on('close', (code) => {
-			console.log(`子进程退出码：${code}`);
-			onClose && onClose(code);
+			onEnd && onEnd(code);
 			console.groupEnd(groupTitle);
 		});
+	},
+	
+	sendCommand(action, message){
+		ipcRenderer.send(action, message);
 	}
 };

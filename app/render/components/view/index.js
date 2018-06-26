@@ -94,20 +94,47 @@ module.exports = function (components, template, config, util) {
 					this.selectMenu('build');
 				}
 			},
+			canClear(){
+				return !!this.betweenVersion.fromHash || !!this.betweenVersion.toHash;
+			},
 			canBuild() {
 				return !!this.betweenVersion.fromHash && !!this.betweenVersion.toHash;
+			},
+			resetVersions(){
+				this.buildArray = [{}, {}];
 			},
 			setting(){},
 			build(){
 				let {fromHash, toHash} = this.betweenVersion;
+				util.sendCommand('open console');
 				this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`], {
-					onData(data){},
-					onError(data){},
-					onEnd(code){},
+					onData(data){
+						util.sendCommand('print', data);
+					},
+					onError(data){
+						util.sendCommand('print', data);
+					},
+					onEnd(code){
+						util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
+					}
 				});
 			},
 			construct(){
-			
+				util.sendCommand('open console');
+				this.gulp.runTaskByName('build', [], {
+					onData(data){
+						util.sendCommand('print', data);
+					},
+					onError(data){
+						util.sendCommand('print', data);
+					},
+					onEnd(code){
+						util.sendCommand('print', `<div class="end-line ${code === 0 ? 'success' : 'error'}">Exit with code: ${code}</div>`);
+					}
+				});
+			},
+			publish(){
+				//util.sendCommand('print', 'Test print message, haha!!!');
 			},
 			md5(){},
 			print(content){

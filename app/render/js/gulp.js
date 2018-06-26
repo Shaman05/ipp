@@ -22,7 +22,7 @@ Gulp.prototype = {
 		let that = this;
 		this.gulpCommand = `${localGulp}`;
 		util.runCommand([`${localGulp}`, `-v`], this.rootDir, {
-			onClose(code){
+			onEnd(code){
 				if(code !== 0){
 					console.warn(`[gulp check] 本地gulp检测失败！`);
 					//如果检测失败，将使用全局gulp

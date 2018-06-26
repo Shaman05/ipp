@@ -14,6 +14,7 @@ module.exports = {
 		height: 600
 	},
 	entry: path.join(__dirname, 'index.html'),
+	consolePage: path.join(__dirname, 'console.html'),
 	icons: {
 		png48: resourcesFile('logo-48x48.png'),
 		png128: resourcesFile('logo-128x128.png'),

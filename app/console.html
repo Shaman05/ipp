@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XBuild - console</title>
+    <link rel="stylesheet" href="./render/css/console.css">
+</head>
+<body ondrop="return false" ondragover="return false">
+<div class="wrap">
+    <div class="drag-bar">
+        <span class="icon"></span>
+        <span>XBuild - console</span>
+        <div class="win-menus">
+            <span class="min-menu" id="minWin"></span>
+            <span class="max-menu" id="toggleWin"></span>
+            <span class="close-menu" id="closeWin"></span>
+        </div>
+    </div>
+    <div class="input-bar">
+        <label>
+            <input id="message" type="text" placeholder="">
+            <button id="send" disabled>发送</button>
+        </label>
+    </div>
+    <div class="content">
+        <div class="output" id="output"></div>
+    </div>
+    <div class="setting-bar">
+        <label class="label"><input type="checkbox" id="autoScroll" checked><span>自动滚屏</span></label>
+        <div class="more-setting">
+            <select name="" id="btl">
+                <option value="0">字体大小</option>
+                <option value="12">小</option>
+                <option value="14">中</option>
+                <option value="16">大</option>
+            </select>
+            <button id="clear">清空</button>
+        </div>
+    </div>
+</div>
+<script>
+	const electron = require('electron');
+	const ipcRenderer = electron.ipcRenderer;
+	let frame = electron.remote.getCurrentWindow();
+	let isWinMax = frame.isMaximized();
+	
+	window.onload = function () {
+		let sendBtn = $id('send'),
+			clearBtn = $id('clear'),
+			message = $id('message'),
+			btl = $id('btl'),
+			autoScroll = $id('autoScroll'),
+			output = $id('output');
+		let minWin = $id('minWin');
+		let toggleWin = $id('toggleWin');
+		let closeWin = $id('closeWin');
+		
+		ipcRenderer.on('print', (event, arg) => {
+			console.log('[XBuild print]', arg);
+			print(arg);
+		});
+		
+		// setInterval(function () {
+		// 	print(`[${new Date().toLocaleTimeString()}]测试打印----端口号：${comValue}，波特率：${getBtl()}，发送的命令是：${getCommand()}`);
+		// }, 1000);
+		
+		message.onkeyup = function (e) {
+			let command = getCommand();
+			sendBtn.disabled = !command;
+			if (e.keyCode === 13) { //支持回车发送
+				sendCommand();
+			}
+		};
+		sendBtn.onclick = sendCommand;
+		clearBtn.onclick = clear;
+		
+		frame.on('maximize', function () {
+			isWinMax = true;
+			toggleWin.className = 'restore-menu';
+		});
+		frame.on('unmaximize', function () {
+			isWinMax = false;
+			toggleWin.className = 'max-menu';
+		});
+		minWin.onclick = function () {
+			frame.minimize();
+		};
+		toggleWin.onclick = function () {
+			if (isWinMax) {
+				frame.unmaximize();
+				toggleWin.className = 'max-menu';
+			} else {
+				frame.maximize();
+				toggleWin.className = 'restore-menu';
+			}
+			isWinMax = !isWinMax;
+		};
+		closeWin.onclick = function () {
+			ipcRenderer.send('close console', 'please close console window!');
+			frame.close();
+		};
+		btl.onchange = function () {
+      let value = btl.value;
+      if(value !== '0'){
+	      output.style.fontSize = `${value}px`;
+      }
+		};
+		
+		function $id(id) {
+			return document.getElementById(id);
+		}
+		
+		function getCommand() {
+			return message.value.replace(/(^\s*)|(\s*$)/g, ""); //去前后空格
+		}
+		
+		function sendCommand() {
+			let command = getCommand();
+			if (!command) {
+				return false;
+			}
+			print(`发送命令：${command}`);
+			//todo
+		}
+		
+		function print(message) {
+			let p = document.createElement('span');
+			p.innerHTML = message
+				.replace('[31m', '')
+				.replace('[32m', '')
+				.replace('[33m', '')
+				.replace('[39m', '')
+				.replace(/\n/g, '<br/>');
+			output.appendChild(p);
+			if (autoScroll.checked) {
+				p.scrollIntoView();
+			}
+		}
+		
+		function clear() {
+			output.innerHTML = '';
+		}
+	}
+</script>
+</body>
+</html>

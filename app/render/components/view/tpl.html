@@ -1,7 +1,6 @@
 <div class="view">
     <Layout>
-        <Sider collapsible
-               :collapsed-width="40"
+        <Sider :collapsed-width="40"
                v-model="isCollapsed"
                width="80"
                :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
@@ -28,7 +27,10 @@
                     </a>
                 </Card>
                 <div class="info">
-                    <div class="tool-bar">
+                    <div class="row-title" v-if="tab === 'build'">
+                        <span>增量发包：</span>
+                    </div>
+                    <div class="tool-bar" :class="{mt12: tab === 'info'}">
                         <Input v-model="filterKey"
                                icon="compose"
                                placeholder="filter commits message..."
@@ -42,9 +44,16 @@
                             <!--&nbsp;-&nbsp;-->
                             <!--<a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>-->
                             <!--&nbsp;-->
-                            <Tag type="dot" :color="betweenVersion.fromHash ? 'green' : 'red'" :title="betweenVersion.fromMsg">{{betweenVersion.fromHash || 'unset'}}</Tag>
+                            <Tag type="dot" :color="betweenVersion.fromHash ? 'green' : 'red'" :title="betweenVersion.fromMsg">
+                                {{betweenVersion.fromHash || 'unset'}}
+                                <!--<span title="delete this" @click="deleteFromHash">x</span>-->
+                            </Tag>
                             ~
-                            <Tag type="dot" :color="betweenVersion.toHash ? 'green' : 'red'" :title="betweenVersion.toMsg">{{betweenVersion.toHash || 'unset'}}</Tag>
+                            <Tag type="dot" :color="betweenVersion.toHash ? 'green' : 'red'" :title="betweenVersion.toMsg">
+                                {{betweenVersion.toHash || 'unset'}}
+                                <!--<span title="delete this" @click="deleteToHash">x</span>-->
+                            </Tag>
+                            <i-button icon="refresh" type="error" v-if="tab === 'info'" :disabled="!canClear()" @click="resetVersions">Clear</i-button>
                             <i-button icon="hammer" type="success" v-if="tab === 'build'" :disabled="!canBuild()" @click="build">Build</i-button>
                         </span>
                     </div>
@@ -67,20 +76,26 @@
                     </div>
                 </div>
                 <div class="build" v-if="tab === 'build'">
+                    <div class="row-title">
+                        <span>全量发包：</span>
+                    </div>
                     <div class="task-row">
                         <Icon type="help" color="blue" size="18" title="快速构建应用的源码输出，用于安装程序的打包"></Icon>
                         <span>快速构建：</span>&nbsp;
                         <i-button icon="settings" type="success" @click="construct">Construct</i-button>
                     </div>
                     <div class="task-row">
+                        <Icon type="help" color="blue" size="18" title="将构建好的源码打包成安装程序"></Icon>
+                        <span>发布应用：</span>&nbsp;
+                        <i-button icon="settings" type="success" @click="publish">Publish</i-button>
+                    </div>
+                    <div class="row-title">
+                        <span>后续操作：</span>
+                    </div>
+                    <div class="task-row">
                         <Icon type="help" color="blue" size="18" title="校验指定文件的 md5 sha1 输出"></Icon>
                         <span>MD5校验：</span>&nbsp;
                         <i-button icon="key" type="success" @click="md5">Hash file</i-button>
-                    </div>
-                    <div class="console-output">
-                        <h3>输出：</h3>
-                        <div class="output-box">
-                        </div>
                     </div>
                 </div>
             </Content>

@@ -170,11 +170,14 @@ body{
     display: none;
   }
   .tool-bar{
-    margin: 12px 0;
     overflow: hidden;
+    padding-left: 4px;
+    .ivu-input-wrapper{
+      position: relative;
+      bottom: -2px;
+    }
   }
   .build-select{
-    margin-left: 2px;
     font-size: 14px;
     line-height: 32px;
     a{
@@ -183,6 +186,23 @@ body{
   }
   .ivu-tag{
     cursor: default;
+    .ivu-tag-text{
+      span{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: red;
+        vertical-align: middle;
+        text-align: center;
+        line-height: 16px;
+        position: relative;
+        top: -2px;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+    }
   }
   .unset{
     color: red;
@@ -192,12 +212,13 @@ body{
   }
   .history-wrap{
     position: relative;
-    height: 410px;
+    height: 406px;
     padding-left: 8px;
+    margin-top: 12px;
     overflow-y: auto;
     overflow-x: hidden;
-    p{margin: 0}
     border: 1px solid #e9eaec;
+    p{margin: 0}
   }
   .logs-list{
     li{
@@ -231,19 +252,30 @@ body{
 }
 .task-row{
   margin-bottom: 12px;
+  padding-left: 4px;
   .ivu-btn>.ivu-icon{
     font-size: 16px;
     position: relative;
     bottom: -1px;
   }
 }
-.console-output{
-  .output-box{
-    height: 274px;
-    overflow: auto;
-    background: #393939;
-    padding: 2px 6px;
-    font-size: 13px;
-    color: white;
+
+.mt12{
+  margin-top: 12px;
+}
+
+.row-title{
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+  margin-bottom: 20px;
+  span{
+    font-size: 14px;
+    font-weight: bold;
+    background: white;
+    position: absolute;
+    left: 10px;
+    bottom: -11px;
+    padding-left: 4px;
   }
 }

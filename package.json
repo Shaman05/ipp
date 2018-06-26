@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Shaman05/ipp#readme",
   "dependencies": {
+    "bufferhelper": "^0.2.1",
+    "iconv-lite": "^0.4.23",
     "iview": "^2.14.0-rc.1",
     "simple-git": "^1.92.0",
     "vue": "^2.5.16",

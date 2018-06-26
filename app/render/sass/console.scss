@@ -1,0 +1,235 @@
+@mixin noDrag{
+  -webkit-app-region: no-drag;
+}
+@mixin drag{
+  -webkit-app-region: drag;
+}
+@mixin noSelect{
+  -webkit-user-select: none;
+}
+@mixin select{
+  -webkit-user-select: auto;
+}
+::-webkit-scrollbar {width: 10px; height: 3px; transition: all 0.5s;}
+::-webkit-scrollbar-track-piece{background-color: transparent;}
+::-webkit-scrollbar-thumb{background: rgba(44, 62, 80, 0.2); min-height: 150px; min-width: 150px;}
+::-webkit-scrollbar-thumb:vertical:hover{background: rgba(44, 62, 80, 0.8);}
+::-webkit-scrollbar-thumb:horizontal:hover{background: rgba(44, 62, 80, 0.8);}
+html, body {
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  -webkit-user-select: none;
+  cursor: default;
+  html{
+    height: 100%;
+    position: relative;
+  }
+  body{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #b5b5b5;
+    font-size: 12px;
+    font-family: Microsoft Yahei,Arial,tahoma,Helvetica,sans-serif;
+    overflow: hidden;
+  }
+  .wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 54px 12px 30px;
+  }
+  .drag-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    line-height: 22px;
+    text-indent: 8px;
+    @include drag;
+    .icon{
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+      background: url("../images/logo-48x48.png") no-repeat center;
+      background-size: contain;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+    }
+  }
+  .win-menus{
+    position: absolute;
+    height: 24px;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    @include noDrag;
+    span{
+      display: inline-block;
+      width: 30px;
+      height: 22px;
+      position: relative;
+      &:hover{
+        background: #e3e3e3;
+      }
+      &.close-menu:hover{
+        background: #ff3535;
+        &:before,
+        &:after{
+          background: #ffffff;
+        }
+      }
+    }
+    .min-menu{
+      &:before{
+        content: "";
+        height: 1px;
+        width: 14px;
+        background: #0F192A;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -1px 0 0 -7px;
+      }
+    }
+    .max-menu{
+      &:before{
+        content: "";
+        height: 8px;
+        width: 10px;
+        background: #ffffff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -5px 0 0 -6px;
+        border: 1px solid #0F192A;
+      }
+    }
+    .restore-menu{
+      &:before{
+        content: "";
+        height: 6px;
+        width: 8px;
+        background: #ffffff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -5px 0 0 -4px;
+        border: 1px solid #0F192A;
+      }
+      &:after{
+        content: "";
+        height: 6px;
+        width: 8px;
+        background: #ffffff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -3px 0 0 -6px;
+        border: 1px solid #0F192A;
+      }
+    }
+    .close-menu{
+      &:before,
+      &:after{
+        content: "";
+        height: 1px;
+        width: 14px;
+        background: #000000;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -1px 0 0 -7px;
+      }
+      &:before{
+        transform: rotate(45deg);
+      }
+      &:after{
+        transform: rotate(-45deg);
+      }
+    }
+  }
+  .input-bar{
+    position: absolute;
+    height: 30px;
+    left: 0;
+    right: 0;
+    top: 24px;
+    label{
+      display: flex;
+      margin: 0 12px;
+      background: #f1f1f1;
+      padding: 5px;
+      border-radius: 4px 4px 0 0;
+      input{
+        flex: 1;
+        &:focus{
+          outline: none;
+        }
+      }
+      button{
+        margin-left: 2px;
+      }
+    }
+  }
+}
+.content{
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 0 1px #666666 inset;
+  position: relative;
+  overflow: auto;
+  .output{
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    padding: 6px 4px;
+    font-size: 12px;
+    @include select;
+    .end-line{
+      padding-bottom: 12px;
+      font-weight: bold;
+      &.success{
+        color: green;
+      }
+      &.error{
+        color: red;
+      }
+    }
+  }
+}
+.setting-bar{
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30px;
+  bottom: 0;
+  .label{
+    padding-left: 8px;
+    line-height: 30px;
+    input{
+      position: relative;
+      top: 2px;
+    }
+  }
+  .more-setting{
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    select{
+      height: 21px;
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}

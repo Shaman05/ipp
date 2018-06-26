@@ -1,6 +1,7 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
+const Console = require('./console');
 let menu = require('./menu');
 let config = require('../config');
 
@@ -61,4 +62,23 @@ app.on('activate', () => {
 	if (win === null) {
 		createWindow()
 	}
+});
+
+//进程通信
+ipcMain.on('load complete', (event, arg) => {
+	console.log('[XBuild info]: Load completed! Start to show page ...');
+});
+ipcMain.on('open console', (event, arg) => {
+	console.log('[XBuild info]: Open console window ...');
+	Console.handler('open', event, arg);
+});
+ipcMain.on('close console', (event, arg) => {
+	console.log('[XBuild info]: Close console window ...');
+	Console.handler('close', event, arg);
+});
+ipcMain.on('print', (event, arg) => {
+	console.log('[XBuild info]: Received print message:', arg);
+	//event.sender.send('print', arg);
+	//event.returnValue = arg;
+	Console.handler('print', event, arg);
 });
