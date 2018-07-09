@@ -16,6 +16,13 @@ module.exports = function (components, template, config, util) {
 		},
 		created(){
 			this.showHistoryRepos();
+			this.$root.$on('open dir', ()=> {
+				console.log(`[open dir event]:`);
+				this.addRepo();
+			});
+		},
+		beforeDestroy(){
+			this.$root.$off('open dir');
 		},
 		methods: {
 			showHistoryRepos(){

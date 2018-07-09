@@ -121,6 +121,7 @@ module.exports = function (components, template, config, util) {
 				let self = this;
 				this.beforeRun('build', ()=>{
 					let {fromHash, toHash} = this.betweenVersion;
+					util.sendCommand('print', `<div class="end-line warn">zip:changes --v1=${fromHash} --v2=${toHash}</div>`);
 					this.gulp.runTaskByName('zip:changes', [`--v1=${fromHash}`, `--v2=${toHash}`], {
 						onData(data){
 							util.sendCommand('print', data);
@@ -154,28 +155,6 @@ module.exports = function (components, template, config, util) {
 			},
 			publish(){
 				//util.sendCommand('print', 'Test print message, haha!!!');
-			},
-			md5(){
-				let self = this;
-				util.selectDir({
-					title: `请选择要校验的文件`,
-					defaultPath: this.repoDir,
-					onSelect(filePath) {
-						let hashResult = util.hashFile(filePath, (e)=> {
-							self.$Notice.error({title: `SHA1 失败`, desc: `原因：<br/>${e}!`});
-						});
-						if(hashResult){
-							let {hash, size} = hashResult;
-							self.$Notice.success({title: `Success!`});
-							self.hashResult = JSON.stringify({
-								file: filePath,
-								hash,
-								method: `md5 sha1`,
-								size
-							}, true, 2);
-						}
-					}
-				}, true);
 			}
 		}
 	});

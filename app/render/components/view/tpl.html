@@ -90,17 +90,6 @@
                         <span>发布应用：</span>&nbsp;
                         <i-button icon="settings" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">Publish</i-button>
                     </div>
-                    <div class="row-title">
-                        <span>后续操作：</span>
-                    </div>
-                    <div class="task-row">
-                        <Icon type="help" color="blue" size="18" title="校验指定文件的 md5 sha1 输出"></Icon>
-                        <span>MD5校验：</span>&nbsp;
-                        <i-button icon="key" type="success" @click="md5">Hash file</i-button>
-                        <div v-if="hashResult">
-                            <pre>{{hashResult}}</pre>
-                        </div>
-                    </div>
                 </div>
             </Content>
         </Layout>

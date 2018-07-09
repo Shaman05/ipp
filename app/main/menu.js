@@ -1,7 +1,7 @@
 //创建应用菜单
 
 const electron = require('electron');
-const {Menu, shell, dialog} = electron;
+const {Menu, shell, dialog, ipcMain} = electron;
 let config = require('../config');
 let {pkg, icons} = config;
 
@@ -15,7 +15,8 @@ module.exports = {
 						label: '添加仓库',
 						accelerator: 'CmdOrCtrl+O',
 						click(){
-							//todo: open dir
+							console.log(`[main process]: fire open dir!`);
+							win.webContents.executeJavaScript('openDir()');
 						}
 					}
 				]
@@ -26,7 +27,8 @@ module.exports = {
 					{
 						label: 'md5 校验',
 						click(){
-							//todo:
+							console.log(`[main process]: fire md5 check!`);
+							win.webContents.executeJavaScript('md5Check()');
 						}
 					}
 				]

@@ -279,3 +279,33 @@ body{
     padding-left: 4px;
   }
 }
+
+.md5-model{
+  .ivu-input-type{
+    &:first-of-type{
+      margin-bottom: 12px;
+    }
+    .ivu-input[disabled]{
+      background: white;
+      color: #000000;
+      font-size: 14px;
+    }
+    &:last-of-type{
+      .ivu-input[disabled]{
+        cursor: default;
+      }
+    }
+  }
+  .ivu-input-group-append{
+    .ivu-btn{
+      font-size: 20px;
+      padding: 0 10px;
+    }
+  }
+  .ivu-input-group-prepend{
+    width: 50px;
+  }
+  .ivu-modal-footer{
+    border-top: none;
+  }
+}

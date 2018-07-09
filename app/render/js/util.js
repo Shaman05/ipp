@@ -129,13 +129,18 @@ module.exports = {
 		ipcRenderer.send(action, message);
 	},
 	
-	hashFile(filePath, onError){
+	hashFile(filePath, callback, onError){
 		try{
-			let stat = fs.statSync(filePath);
-			return {
-				hash: crypto.createHash('sha1').update(JSON.stringify(stat)).digest('hex'),
-				size: stat.size
-			};
+			let {size} = fs.statSync(filePath);
+			let rs = fs.createReadStream(filePath);
+			let hash = crypto.createHash('md5');
+			rs.on('data', hash.update.bind(hash));
+			rs.on('end', ()=> {
+				hash = hash.digest('hex');
+				callback && callback({
+					hash, size
+				});
+			});
 		}catch (e){
 			onError && onError(e);
 			return '';

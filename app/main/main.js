@@ -70,15 +70,15 @@ ipcMain.on('load complete', (event, arg) => {
 });
 ipcMain.on('open console', (event, arg) => {
 	console.log('[XBuild info]: Open console window ...');
-	Console.handler('open', event, arg);
+	Console.handler(win, 'open', event, arg);
 });
 ipcMain.on('close console', (event, arg) => {
 	console.log('[XBuild info]: Close console window ...');
-	Console.handler('close', event, arg);
+	Console.handler(win, 'close', event, arg);
 });
 ipcMain.on('print', (event, arg) => {
 	console.log('[XBuild info]: Received print message:', arg);
 	//event.sender.send('print', arg);
 	//event.returnValue = arg;
-	Console.handler('print', event, arg);
+	Console.handler(win, 'print', event, arg);
 });

@@ -10,10 +10,10 @@ let debug = process.argv[2] === 'debug' || Conf.devTools;
 module.exports = {
 	isConsoleOpen: false,
 	win: null,
-	handler(action, event, message) {
+	handler(parentWindow, action, event, message) {
 		console.log('[XBuild console window]:', message);
 		if (action === 'open') {
-			return this.openWindow();
+			return this.openWindow(parentWindow);
 		}
 		if (action === 'close') {
 			return this.closeWindow();
@@ -22,7 +22,7 @@ module.exports = {
 			this.win && this.win.webContents.send('print', message);
 		}
 	},
-	openWindow() {
+	openWindow(parentWindow) {
 		if (this.isConsoleOpen) {
 			if (this.win) {
 				this.win.focus();
@@ -41,8 +41,8 @@ module.exports = {
 			frame: false,
 			resizable: true,
 			show: false,
-			//modal: true,
-			//parent: mainWindow
+			modal: true,
+			parent: parentWindow
 		});
 		win.on('closed', () => {
 			win = this.win = null;

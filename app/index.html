@@ -9,6 +9,23 @@
 <body>
 <div id="app" class="page">
     <router-view></router-view>
+    <Modal v-model="md5Model"
+           class-name="md5-model">
+        <p slot="header" style="color:#f60; text-align: left">
+            <Icon type="information-circled"></Icon>
+            <span>选择需要校验的文件</span>
+        </p>
+        <div style="text-align: center">
+            <i-input v-model="md5File" disabled >
+                <span slot="prepend">File</span>
+                <i-button slot="append" icon="android-document" @click="selectMd5File"></i-button>
+            </i-input>
+            <i-input v-model="md5Value" disabled ><span slot="prepend">MD5</span></i-input>
+        </div>
+        <div slot="footer">
+            <i-button type="error" :disabled="!md5File" size="large" long :loading="md5Checking" @click="doMd5Check">校 验</i-button>
+        </div>
+    </Modal>
 </div>
 <script>
     let app = require('./render/index');

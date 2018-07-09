@@ -204,6 +204,9 @@ html, body {
       &.error{
         color: red;
       }
+      &.warn{
+        color: orange;
+      }
     }
   }
 }
