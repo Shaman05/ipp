@@ -281,6 +281,9 @@ body{
 }
 
 .md5-model{
+  .ivu-modal-body{
+    padding: 30px 30px 10px;
+  }
   .ivu-input-type{
     &:first-of-type{
       margin-bottom: 12px;
@@ -307,5 +310,6 @@ body{
   }
   .ivu-modal-footer{
     border-top: none;
+    padding: 20px 30px 30px;
   }
 }

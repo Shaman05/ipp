@@ -1,0 +1,42 @@
+<html>
+<body scroll="no" oncontextmenu="return false" ondragstart="return false" onselectstart="return false" onselect="document.selection.empty()" oncopy="document.selection.empty()" onbeforecopy="return false" onmouseup="document.selection.empty()">
+<script>
+var NowFrame = 1;
+var MaxFrame = 3;
+var bStart = 0;
+function fnToggle() {
+  var next = NowFrame + 1;
+  if(next == MaxFrame+1)
+  {
+    NowFrame = MaxFrame;
+    next = 1;
+  }
+  if(bStart == 0)
+  {
+    bStart = 1;
+    setTimeout('fnToggle()', 12000);
+    return;
+  }
+  else
+  {
+    oTransContainer.filters[0].Apply();
+    document.images['oDIV' + next].style.display = "";
+    document.images['oDIV' + NowFrame].style.display = "none";
+    oTransContainer.filters[0].Play(duration=2);
+    if(NowFrame == MaxFrame)
+      NowFrame = 1;
+    else
+      NowFrame ++;
+  }
+  setTimeout('fnToggle()', 12000);
+}
+fnToggle();
+</script>
+<div id="oTransContainer" style="filter: progid:DXImageTransform.Microsoft.Wipe(GradientSize='1.0', wipeStyle='1', motion='forward'); position: absolute; left: 0px; top: 0px; height: 217px; width: 479px; ">
+  <img id="oDIV1" src="01.png" height="207" width="479" border="0">
+  <img id="oDIV2" src="02.png" height="207" width="479" border="0">
+  <img id="oDIV3" src="03.png" height="207" width="479" border="0">
+  <img id="oDIV4" src="04.png" height="207" width="479" border="0">
+</div>
+</body>
+</html>

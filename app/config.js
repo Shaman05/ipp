@@ -22,7 +22,8 @@ module.exports = {
 		ico128: resourcesFile('logo-128x128.ico'),
 	},
 	debug: false,
-	storage: path.join(processCwd, 'repos.json')
+	storage: path.join(processCwd, 'repos.json'),
+	nsisXBlocklyRoot: path.join(processCwd, 'nsis-xblockly')
 };
 
 function resourcesFile(name) {

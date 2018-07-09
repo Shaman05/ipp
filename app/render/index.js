@@ -8,6 +8,7 @@ const routers = require('./routers');
 const components = require('./components');
 const util = require('./js/util');
 let config = require('../config');
+console.log(config);
 
 module.exports.start = function () {
 	
