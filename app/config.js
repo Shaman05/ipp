@@ -23,7 +23,6 @@ let baseConfig = {
 	},
 	debug: false,
 	storage: path.join(processCwd, 'repos.json'),
-	nsisXBlocklyRoot: path.join(processCwd, 'nsis-xblockly'),
 	processCwd,
 	localConfigFile: path.join(processCwd, 'local.config.json'),
 	projectConfigs: {}

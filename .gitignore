@@ -11,3 +11,4 @@ release/
 logs/
 downloads/
 repos.json
+local.config.json

@@ -2,6 +2,8 @@
  * Created by ChenChao on 2018/5/16.
  */
 
+const Path = require('path');
+const Fs = require('fs');
 const Git = require('../../js/git');
 const Gulp = require('../../js/gulp');
 const Vue = require('vue/dist/vue');
@@ -60,7 +62,14 @@ module.exports = function (components, template, config, util) {
 			this.openRepo();
 			this.gulp = new Gulp(dir, {});
 			this.gulp.initGulpShell();
-			console.log(`配置：`, util.getLocalConfig(name));
+			let localConfig = util.getLocalConfig(name);
+			let {spikeZipDir, packagerDir} = localConfig;
+			if(spikeZipDir){
+				this.spikeZipDir = spikeZipDir;
+			}
+			if(packagerDir){
+				this.packagerDir = packagerDir;
+			}
 		},
 		methods: {
 			selectMenu(name){
@@ -157,7 +166,16 @@ module.exports = function (components, template, config, util) {
 				});
 			},
 			publish(){
-				//util.sendCommand('print', 'Test print message, haha!!!');
+				let NSisScriptPath = Path.join(this.packagerDir, 'XBlockly-win32-x64', 'nsis-xblockly');
+				console.log(NSisScriptPath);
+				try{
+					Fs.statSync(NSisScriptPath);
+					util.openPath(NSisScriptPath);
+				}catch (e){
+					return this.$Notice.error({
+						title: '打开发布脚本目录失败！',
+						desc: `原因：<br/>${e}!`});
+				}
 			},
 			selectSpikeZipDir(){
 				let that = this;
@@ -165,6 +183,7 @@ module.exports = function (components, template, config, util) {
 					title: '请选择增量包的输出位置',
 					onSelect(dir){
 						that.spikeZipDir = dir;
+						util.setConfig(that.repoName, 'spikeZipDir', dir);
 					}
 				});
 			},
@@ -174,6 +193,7 @@ module.exports = function (components, template, config, util) {
 					title: '请选择构建源码的输出位置',
 					onSelect(dir){
 						that.packagerDir = dir;
+						util.setConfig(that.repoName, 'packagerDir', dir);
 					}
 				});
 			},

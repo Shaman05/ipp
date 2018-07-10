@@ -110,9 +110,18 @@
                         <span class="item-label">第二步，发布应用：</span>&nbsp;
                         <Row>
                             <Col span="18">
-                                <i-button icon="settings" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">发布安装包</i-button>
+                                <i-button icon="share" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">前往发布安装程序</i-button>
                             </Col>
                         </Row>
+                    </div>
+                    <div class="task-row">
+                        <span class="item-label" style="color: #ff6600">发布安装程序帮助：</span>&nbsp;
+                        <ol class="help-ol">
+                            <li>首次发布安装，如未安装nsis脚本编译器，请先安装！（../发布目录/nsis_2.46.1414981289.exe）</li>
+                            <li>打开发布目录后，双击运行setup.nsi脚本，即开始打包安装程序。</li>
+                            <li>setup.nsi编译结束后，会在当前目录生成安装程序 Setup.exe 。</li>
+                            <li>如发布时需提供md5信息，可在 Tools -> md5校验 里获取！</li>
+                        </ol>
                     </div>
                 </div>
             </Content>

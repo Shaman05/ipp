@@ -19,7 +19,8 @@ function createWindow() {
 	win = new BrowserWindow({
 		width, height,
 		icon: config.icons.png48,
-		resizable: false
+		resizable: false,
+		show: false
 	});
 	menu.init(win, debug);
 	

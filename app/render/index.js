@@ -35,6 +35,7 @@ module.exports.start = function () {
 		created(){},
 		mounted(){
 			console.log('page mounted!');
+			util.showWin();
 		},
 		methods: {
 			selectMd5File(){

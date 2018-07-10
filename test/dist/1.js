@@ -1,1 +1,0 @@
-const A=10;module.exports={foo:()=>30,bar(){console.log("bar")}};

@@ -17,6 +17,10 @@ module.exports = {
 		let tplFile = path.resolve(__dirname, `../components/${name}/tpl.html`);
 		return fs.readFileSync(tplFile, 'utf-8');
 	},
+	showWin: function () {
+		let win = remote.getCurrentWindow();
+		win.show();
+	},
 	openPath(path){
 		shell.openItem(path);
 	},
