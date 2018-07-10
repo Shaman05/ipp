@@ -26,7 +26,9 @@ module.exports = function (components, template, config, util) {
 				runStatus: {
 					action: '',
 					isRunning: false
-				}
+				},
+				spikeZipDir: '',
+				packagerDir: '',
 			}
 		},
 		computed: {
@@ -58,6 +60,7 @@ module.exports = function (components, template, config, util) {
 			this.openRepo();
 			this.gulp = new Gulp(dir, {});
 			this.gulp.initGulpShell();
+			console.log(`配置：`, util.getLocalConfig(name));
 		},
 		methods: {
 			selectMenu(name){
@@ -104,7 +107,7 @@ module.exports = function (components, template, config, util) {
 				return !!this.betweenVersion.fromHash || !!this.betweenVersion.toHash;
 			},
 			canBuild() {
-				return !!this.betweenVersion.fromHash && !!this.betweenVersion.toHash;
+				return !!this.betweenVersion.fromHash && !!this.betweenVersion.toHash && !!this.spikeZipDir;
 			},
 			resetVersions(){
 				this.buildArray = [{}, {}];
@@ -139,7 +142,7 @@ module.exports = function (components, template, config, util) {
 			construct(){
 				let self = this;
 				this.beforeRun('construct', ()=> {
-					this.gulp.runTaskByName('build', [], {
+					this.gulp.runTaskByName('build', [`--out=${this.packagerDir}`], {
 						onData(data){
 							util.sendCommand('print', data);
 						},
@@ -155,6 +158,34 @@ module.exports = function (components, template, config, util) {
 			},
 			publish(){
 				//util.sendCommand('print', 'Test print message, haha!!!');
+			},
+			selectSpikeZipDir(){
+				let that = this;
+				util.selectDir({
+					title: '请选择增量包的输出位置',
+					onSelect(dir){
+						that.spikeZipDir = dir;
+					}
+				});
+			},
+			selectPackagerDir(){
+				let that = this;
+				util.selectDir({
+					title: '请选择构建源码的输出位置',
+					onSelect(dir){
+						that.packagerDir = dir;
+					}
+				});
+			},
+			openSpikeDir(){
+				if(this.spikeZipDir){
+					util.openPath(this.spikeZipDir);
+				}
+			},
+			openPackagerDir(){
+				if(this.packagerDir){
+					util.openPath(this.packagerDir);
+				}
 			}
 		}
 	});

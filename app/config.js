@@ -7,7 +7,7 @@ const pkg = require('../package');
 let processCwd = process.cwd();
 let resourcesDir = path.join(__dirname, 'resources');
 
-module.exports = {
+let baseConfig = {
 	pkg,
 	frame: {
 		width: 800,
@@ -23,9 +23,22 @@ module.exports = {
 	},
 	debug: false,
 	storage: path.join(processCwd, 'repos.json'),
-	nsisXBlocklyRoot: path.join(processCwd, 'nsis-xblockly')
+	nsisXBlocklyRoot: path.join(processCwd, 'nsis-xblockly'),
+	processCwd,
+	localConfigFile: path.join(processCwd, 'local.config.json'),
+	projectConfigs: {}
 };
+
+loadLocalConfig();
 
 function resourcesFile(name) {
 	return path.join(resourcesDir, name);
 }
+
+function loadLocalConfig() {
+	try{
+		baseConfig.projectConfigs = require(baseConfig.localConfigFile);
+	}catch (e){}
+}
+
+module.exports = baseConfig;

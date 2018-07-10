@@ -28,7 +28,7 @@
                 </Card>
                 <div class="info">
                     <div class="row-title" v-if="tab === 'build'">
-                        <span>增量发包：</span>
+                        <span><Icon type="help" size="18" title="将输出选择的两个版本号之间的增量包"></Icon> 增量发包：</span>
                     </div>
                     <div class="tool-bar" :class="{mt12: tab === 'info'}">
                         <Input v-model="filterKey"
@@ -38,8 +38,7 @@
                                style="width: 240px; float: right">
                         </Input>
                         <span class="build-select">
-                            <Icon type="help" color="blue" size="18" title="将输出选择的两个版本号之间的增量包"></Icon>
-                            <span>指定版本选择：</span>&nbsp;
+                            <span class="item-label">指定版本选择：</span>&nbsp;
                             <!--<a href="javascript:" :title="betweenVersion.fromMsg" :class="{'unset': !betweenVersion.fromHash}">{{betweenVersion.fromHash || 'unset'}}</a>-->
                             <!--&nbsp;-&nbsp;-->
                             <!--<a href="javascript:" :title="betweenVersion.toMsg" :class="{'unset': !betweenVersion.toHash}">{{betweenVersion.toHash || 'unset'}}</a>-->
@@ -54,8 +53,19 @@
                                 <!--<span title="delete this" @click="deleteToHash">x</span>-->
                             </Tag>
                             <i-button icon="refresh" type="error" v-if="tab === 'info'" :disabled="!canClear()" @click="resetVersions">Clear</i-button>
-                            <i-button icon="hammer" :loading="runStatus.action === 'build' && runStatus.isRunning" type="success" v-if="tab === 'build'"
-                                      :disabled="!canBuild()" @click="build">Build</i-button>
+                            <Row :gutter="16" v-if="tab === 'build'">
+                                <Col span="18">
+                                    <i-input v-model="spikeZipDir" readonly :class="{'selected-dir': !!spikeZipDir}" placeholder="请选择输出目录">
+                                        <span slot="prepend">输出目录：</span>
+                                        <i-button title="选择输出目录" slot="append" icon="folder" @click="selectSpikeZipDir"></i-button>
+                                        <i-button title="打开目录" slot="append" icon="share" @click="openSpikeDir"></i-button>
+                                    </i-input>
+                                </Col>
+                                <Col span="6">
+                                    <i-button class="build-btn" icon="hammer" :loading="runStatus.action === 'build' && runStatus.isRunning"
+                                          type="success" :disabled="!canBuild()" @click="build">压缩打包</i-button>
+                                </Col>
+                            </Row>
                         </span>
                     </div>
                     <div class="history-wrap" v-if="tab === 'info'">
@@ -78,17 +88,31 @@
                 </div>
                 <div class="build" v-if="tab === 'build'">
                     <div class="row-title">
-                        <span>全量发包：</span>
+                        <span><Icon type="help" size="18" title="快速构建应用的源码输出，并将构建好的源码打包成安装程序"></Icon> 全量发包：</span>
                     </div>
                     <div class="task-row">
-                        <Icon type="help" color="blue" size="18" title="快速构建应用的源码输出，用于安装程序的打包"></Icon>
-                        <span>快速构建：</span>&nbsp;
-                        <i-button icon="settings" :loading="runStatus.action === 'construct' && runStatus.isRunning" type="success" @click="construct">Construct</i-button>
+                        <span class="item-label">第一步，快速构建：</span>&nbsp;
+                        <Row :gutter="16">
+                            <Col span="18">
+                                <i-input v-model="packagerDir" readonly :class="{'selected-dir': !!packagerDir}" placeholder="请选择输出目录">
+                                    <span slot="prepend">输出目录：</span>
+                                    <i-button title="选择输出目录" slot="append" icon="folder" @click="selectPackagerDir"></i-button>
+                                    <i-button title="打开目录" slot="append" icon="share" @click="openPackagerDir"></i-button>
+                                </i-input>
+                            </Col>
+                            <Col span="6">
+                                <i-button icon="settings" :loading="runStatus.action === 'construct' && runStatus.isRunning"
+                                          type="success" @click="construct" :disabled="!packagerDir">构建源码</i-button>
+                            </Col>
+                        </Row>
                     </div>
                     <div class="task-row">
-                        <Icon type="help" color="blue" size="18" title="将构建好的源码打包成安装程序"></Icon>
-                        <span>发布应用：</span>&nbsp;
-                        <i-button icon="settings" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">Publish</i-button>
+                        <span class="item-label">第二步，发布应用：</span>&nbsp;
+                        <Row>
+                            <Col span="18">
+                                <i-button icon="settings" :loading="runStatus.action === 'publish' && runStatus.isRunning"  type="success" @click="publish">发布安装包</i-button>
+                            </Col>
+                        </Row>
                     </div>
                 </div>
             </Content>

@@ -9,7 +9,8 @@ const iconv = require('iconv-lite');
 const BufferHelper = require('bufferhelper');
 const {spawn, exec} = require('child_process');
 const {shell, ipcRenderer, remote} = require('electron');
-let {storage} = require('../../config');
+const Config = require('../../config');
+let {storage, localConfigFile, projectConfigs} = Config;
 
 module.exports = {
 	getComponentTpl(name){
@@ -146,5 +147,29 @@ module.exports = {
 			return '';
 		}
 		
+	},
+	
+	getLocalConfig(name){
+		if(!name){
+			return projectConfigs;
+		}
+		let projectConfig = projectConfigs[name];
+		if(!projectConfig){
+			console.warn(`[Get ${name} config]: 暂无该项目配置！`);
+			return {};
+		}
+		return projectConfig;
+	},
+	
+	setConfig(name, key, value){
+		let configs = this.getLocalConfig();
+		let config = this.getLocalConfig(name);
+		config[key] = value;
+		configs[name] = config;
+		try{
+			fs.writeFileSync(localConfigFile, JSON.stringify(configs, true, 2));
+		}catch (e){
+			console.error(`写入项目配置失败！`, e);
+		}
 	}
 };
