@@ -50,7 +50,8 @@ module.exports = {
 								`关于 ${pkg.name}`,
 								`版本: ${pkg.version}`,
 								`作者: ${pkg.author}`,
-								`由 Electron + Vue + Webpack 驱动.`
+								`由 Electron + Vue + Webpack 驱动.`,
+								`当前版本仅支持：XBlockly`
 							];
 							dialog.showMessageBox(win, {
 								type: 'info',
